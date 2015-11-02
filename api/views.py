@@ -41,9 +41,12 @@ def handle_post(request):
                     p.puzzle_data.add(pdata)
 
                 p.save()
-                data = serializers.serialize("json", p.puzzle_data.all())
+                data = serializers.serialize("python", p.puzzle_data.all())
+                data = [d['fields'] for d in data]
+                data = json.dumps(data)
                 data = {'player': data}
                 data = {'message': data}
+                
                 return render(request, "update.html", data)
             else:
 
